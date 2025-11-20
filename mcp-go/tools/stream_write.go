@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/harshduche/memtxt/redis"
+	redishandler "github.com/harshduche/memtxt/utils"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
+	"github.com/redis/go-redis/v9"
 )
+
 
 type StreamWriteInput struct {
 	Stream string            `json:"stream"`
@@ -22,7 +24,7 @@ func StreamWrite(ctx context.Context, req *mcp.CallToolRequest, in StreamWriteIn
 	StreamWriteOutput,
 	error,
 ) {
-	id, err := redis.Client.XAdd(redis.Ctx, &redis.XAddArgs{
+	id, err := redishandler.Client.XAdd(redishandler.Ctx, &redis.XAddArgs{
 		Stream: in.Stream,
 		Values: in.Fields,
 	}).Result()

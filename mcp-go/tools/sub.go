@@ -16,7 +16,6 @@ type SubOutput struct {
 	Messages []string `json:"messages"`
 }
 
-
 func Sub(ctx context.Context, res *mcp.CallToolRequest, in SubInput) (*mcp.CallToolResult, SubOutput, error) {
 
 	pubsub := redishandler.Client.Subscribe(redishandler.Ctx, in.Channel)
@@ -24,11 +23,9 @@ func Sub(ctx context.Context, res *mcp.CallToolRequest, in SubInput) (*mcp.CallT
 
 	msg, err := pubsub.ReceiveMessage(redishandler.Ctx)
 
-	if err != nil{
+	if err != nil {
 		return nil, SubOutput{}, fmt.Errorf("subscriber error: %v", err)
 	}
 
-	return  nil, SubOutput{Messages: []string{msg.Payload}}, nil
+	return nil, SubOutput{Messages: []string{msg.Payload}}, nil
 }
-
-
